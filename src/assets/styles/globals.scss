@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap');
+@import url("~react-image-gallery/styles/css/image-gallery.css");
+
+body {
+	@apply bg-bg-color text-base text-black;
+	font-family: 'Golos Text', sans-serif;
+}
+
+.disabled {
+	pointer-events: none;
+	cursor: default;
+	text-decoration: none;
+	opacity: 0.2 !important;
+}
+
+.open-menu {
+	opacity: 1;
+	visibility: visible;
+	display: block;
+	transform: scale(1);
+}
+
+.close-menu {
+	opacity: 0;
+	visibility: hidden;
+	display: none;
+	transform: scale(0.75);
+}
+
+.image-carousel-container, 
+.image-gallery-content, 
+.image-gallery-slide-wrapper, 
+.image-gallery-swipe, 
+.image-gallery-slides {
+	height: 100%;
+	width: 100%;
+}
+
+.main-carousel-img {
+	height: 400px;
+	width: 100%;
+	overflow: hidden;
+	cursor: default;
+
+	img {
+		width: initial;
+		height: 100%;
+		object-fit: cover;
+	}
+}
