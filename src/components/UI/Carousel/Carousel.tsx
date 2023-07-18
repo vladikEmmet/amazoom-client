@@ -17,7 +17,8 @@ interface CarouselProps {
 
 const Carousel: FC<CarouselProps> = 
 ({name, images = [], className = "", showBullets = false}) => {
-    const items = images.length ? images : useCarousel(name).items;
+    // const items = images.length ? images : useCarousel(name).items;
+    const items = useCarousel(name).items;
     const mapedItems: ICarouselImage[] = useMemo(() => {
         return items.map((item) => ({
             original: item.image,
