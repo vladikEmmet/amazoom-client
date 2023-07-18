@@ -1,7 +1,5 @@
-import { CategoryService } from '@/services/category.service';
 import Button from '@/components/UI/Button/Button'
 import Input from '@/components/UI/Input/Input'
-import router from 'next/router';
 import React, { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 

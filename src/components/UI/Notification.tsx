@@ -4,7 +4,7 @@ import cn from 'clsx'
 import { ImCross } from 'react-icons/im'
 import { useAction } from "@/hooks/useAction";
 
-const Modal: FC = () => {
+const Notification: FC = () => {
     const {message} = useModal();
     const {resetMessage} = useAction();
     return (
@@ -27,4 +27,4 @@ const Modal: FC = () => {
     )
 }
 
-export default Modal
+export default Notification

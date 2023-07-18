@@ -31,6 +31,10 @@ body {
 	transform: scale(0.75);
 }
 
+.form-control {
+	width: 100% !important;
+}
+
 .image-carousel-container, 
 .image-gallery-content, 
 .image-gallery-slide-wrapper, 
@@ -50,5 +54,19 @@ body {
 		width: initial;
 		height: 100%;
 		object-fit: cover;
+	}
+}
+
+.auth-form {
+	@apply rounded-lg bg-white shadow-sm p-7 m-auto w-full
+}
+
+.auth-form {
+	input {
+		margin-bottom: 1rem !important;
+	}
+
+	.form-group {
+		margin-bottom: 1rem !important;
 	}
 }

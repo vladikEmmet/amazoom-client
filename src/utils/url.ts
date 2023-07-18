@@ -7,5 +7,5 @@ export enum URL {
     REVIEWS = "/reviews",
     SEARCH = "/q?term=",
     STATISTICS = "/statistics",
-    CAROUSEL="/carousel"
+    CAROUSEL="/carousel",
 }

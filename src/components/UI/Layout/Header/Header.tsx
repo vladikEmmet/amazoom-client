@@ -1,7 +1,7 @@
 import Search from "@/components/UI/Layout/Header/Search"
-import Image from "next/image"
 import Link from "next/link"
 import { AiOutlineHeart } from "react-icons/ai"
+import Logo from "../../Logo"
 import AdminButton from "./AdminButton"
 import HeaderCart from "./Cart/HeaderCart"
 import HeaderProfile from "./HeaderProfile"
@@ -13,13 +13,7 @@ const Header = () => {
       style={{ gridTemplateColumns: "1fr 3fr 1.2fr" }}
     >
       <Link href="/">
-        <Image 
-          priority 
-          width={180} 
-          height={37} 
-          src="..//images/logo.svg" 
-          alt="Logo"
-        />
+        <Logo width={120} height={60}/>
       </Link>
       <Search />
 

@@ -23,6 +23,7 @@ const ProductItem: FC<{product: IProduct}> = ({product}) => {
                 <Image width={250} height={250} 
                     src={product.images[0]} 
                     alt={product.name}
+                    className="w-[250px] h-[250px] object-contain"
                 />
             </Link>
         </div>

@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from "react"
-import Modal from "../Modal"
+import Notification from "../Notification"
 import Header from "./Header/Header"
 import Sidebar from "./Sidebar/Sidebar"
 
@@ -15,7 +15,7 @@ const Layout: FC<PropsWithChildren<unknown>> = ({children}) => {
               {children}
           </main>
       </div>
-      <Modal />
+      <Notification />
     </div>
   )
 }

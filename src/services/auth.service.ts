@@ -6,7 +6,7 @@ import { StorageService } from "./storage.service";
 
 export const AuthService = {
 
-    async main(type: "login" | "register", data: IEmailPassword) {
+    async main<T>(type: "login" | "register", data: T) {
         const response = await axiosDefault<IAuthResponse>({
             url: `${URL.AUTH}/${type}`,
             method: "POST",
@@ -28,4 +28,12 @@ export const AuthService = {
 
         return response;
     },
+
+    async resetPassword(email: string) {
+        return await axiosDefault<{email: string}>({
+            url: `${URL.AUTH}/reset-password`,
+            method: "POST",
+            data: email,
+        })
+    }
 }

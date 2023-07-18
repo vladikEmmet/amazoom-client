@@ -10,7 +10,6 @@ import { NextPageAuth } from "@/providers/authProvider/auth-page.types";
 import { StatisticsService } from "@/services/statistics.service";
 import { useState } from "react";
 import { IStatisticMain } from "@/types/statictic.interface";
-import Loader from "@/components/UI/Loader";
 import UserInfoComponent from "@/components/UI/UserInfoComponent";
 
 

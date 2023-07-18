@@ -25,6 +25,12 @@ export interface IEmailPassword {
     password: string;
 }
 
+export interface IUserRegister extends IEmailPassword {
+    number: string;
+    phone: string;
+    name: string;
+}
+
 export interface IAuthResponse extends ITokens {
     user: IUser & {
         role: UserRoles,

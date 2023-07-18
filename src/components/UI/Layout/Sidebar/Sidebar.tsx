@@ -27,16 +27,15 @@ const Sidebar: FC = () => {
   
   return (
     <aside 
-      className="flex flex-col justify-between bg-secondary mt-[91px] fixed"
-      style={{height: "calc(100vh - 91px)"}}
+      className="flex flex-col justify-between bg-secondary pt-[91px] fixed w-[15%] h-[100%]"
     >
-        <div>
+        <div className="h-full flex flex-col">
           {
             isLoading ? 
             (<Loader bg="transparent"/>) :
             (data && data.length) ? (
               <>
-                <div className="text-xl text-white mt-4 mb-6 ml-6">
+                <div className="text-xl text-white mt-5 mb-6 ml-6">
                   Categories:
                 </div>
                 <ul>
@@ -63,17 +62,16 @@ const Sidebar: FC = () => {
               <div className="text-white text-xl">No categories</div>
             )
           }
-        </div>
-
-        {!!user && (
+          {!!user && (
           <button
-            className="text-white flex items-center ml-10 mb-10"
+            className="text-white flex items-center ml-10 mb-10 mt-auto"
             onClick={handleLogout}
           >
             <FiLogOut />
             <span className="ml-2">Logout</span>
           </button>
         )}
+        </div>
     </aside>
   )
 }

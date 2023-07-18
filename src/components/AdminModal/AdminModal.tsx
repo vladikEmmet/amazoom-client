@@ -9,10 +9,12 @@ import styles from './AdminModal.module.scss'
 import UpdateCategory from "./UpdateCategory";
 import { useAction } from "@/hooks/useAction";
 import { errorCatch } from "@/api/helper";
+import Modal from "../UI/Modal/Modal";
+import { AdminOpearionsEnum, AdminTypesEnum } from "@/types/AdminOperations";
 
 interface AdminModalProps {
-    type: "product" | "category";
-    operation: "create" | "delete" | "update";
+    type: AdminTypesEnum;
+    operation: AdminOpearionsEnum;
     hideModal: () => void;
 }
 
@@ -26,17 +28,17 @@ const AdminModal: FC<AdminModalProps> = ({type, operation, hideModal}) => {
     
     const handleConfirm: SubmitHandler<{value:string}> = async (data) => {
         try {
-            const op = type === "product" ? ProductService : CategoryService;
-            if (operation === "delete") {
+            const op = type === AdminTypesEnum.PRODUCT ? ProductService : CategoryService;
+            if (operation === AdminOpearionsEnum.DELETE) {
                 await op.delete(+data.value);
                 reset();
                 router.push("/");
-            } else if (operation === "create" && type !== "product") {
-                await op.create({name: data.value} as any);
-                router.push("/");
-            } else {
+            } else if (operation === AdminOpearionsEnum.UPDATE && type !== AdminTypesEnum.PRODUCT) {
                 const prev = await (op as typeof CategoryService).getById(+data.value);
                 setChangedId(+data.value);
+            } else {
+                await op.create({name: data.value} as any);
+                router.push("/");
             }
         } catch(err) {
             setMessage(errorCatch(err));
@@ -57,24 +59,17 @@ const AdminModal: FC<AdminModalProps> = ({type, operation, hideModal}) => {
     }
     
   return (
-    <div className={styles.curtain} >
-        <div 
-            className="bg-white w-1/2 h-1/2 rounded-xl flex flex-col items-center justify-around text-xl"
-            onClick={(e) => e.stopPropagation}
-        >
-            <h1 className="text-center font-semibold text-2xl">
-                {
-                    operation === "delete" ? "Delete " + type : 
-                    operation === "create" ? "New " + type :
-                    "Edit " + type
-                }
-            </h1>
+
+    <Modal 
+        title={(operation === AdminOpearionsEnum.DELETE ? "Delete " : 
+            operation === AdminOpearionsEnum.CREATE ? "New " : "Edit ") + type}
+    >
 
             {changedId === null ? (
             
             <form onSubmit={handleSubmit(handleConfirm)}>
                 {
-                    (operation === "delete" || operation === "update") ?
+                    (operation === AdminOpearionsEnum.DELETE || operation === AdminOpearionsEnum.UPDATE) ?
                     (<Input 
                         {...formReg("value", {
                             required: "Id is required",
@@ -85,11 +80,13 @@ const AdminModal: FC<AdminModalProps> = ({type, operation, hideModal}) => {
                             pattern: {
                                 value: /^\d+$/,
                                 message: "Id must be a number",
-                            }
+                            },
                         })}
                         placeholder={`Enter ${type} id`}
                         withTitle={false}
                         error={errors.value?.message}
+                        type="number"
+                        min={0}
                     />
                     ) : (
                         <Input 
@@ -115,13 +112,15 @@ const AdminModal: FC<AdminModalProps> = ({type, operation, hideModal}) => {
                         variant="dark"
                         type="submit"
                     >
-                        {operation === "delete" ? "Yes" : operation === "update" ? "Continue" : "Create"}
+                        {operation === AdminOpearionsEnum.DELETE ? "Yes" : 
+                            operation === AdminOpearionsEnum.UPDATE ? "Continue" : 
+                            "Create"}
                     </Button>
                     <Button 
                         variant="light" 
                         onClick={hideModal}
                     >
-                        {operation === "delete" ? "No" : "Cancel"}
+                        {operation === AdminOpearionsEnum.DELETE ? "No" : "Cancel"}
                     </Button>
                 </div>
             </form>
@@ -131,8 +130,7 @@ const AdminModal: FC<AdminModalProps> = ({type, operation, hideModal}) => {
                 hideModal={hideModal}
             />
         )}
-        </div>
-    </div>
+    </Modal>
   )
 }
 

@@ -4,7 +4,6 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Input from "./Input/Input";
 import {validEmail} from "@/utils/validEmail";
 import PhoneInput from "react-phone-input-2";
-import { useRouter } from "next/router";
 import Button from "./Button/Button";
 import { SizeEnum } from "@/types/size.enum";
 import { UserService } from "@/services/user/user.service";
@@ -37,7 +36,6 @@ const ProfileForm: FC<ProfileFormProps> = ({user, hideForm, isPhotoEditing}) => 
             hideForm();
             mutate();
             setMessage("Profile updated successfully");
-            console.log()
         } catch(err) {
             setMessage(err);
         }
@@ -103,7 +101,7 @@ const ProfileForm: FC<ProfileFormProps> = ({user, hideForm, isPhotoEditing}) => 
                     </>
                 );
             }}
-         />
+        />
         <Input
             {...register("name", {
                 minLength: {

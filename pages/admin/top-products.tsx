@@ -2,6 +2,7 @@ import { errorCatch } from "@/api/helper";
 import Layout from "@/components/UI/Layout/Layout";
 import Loader from "@/components/UI/Loader";
 import Meta from "@/components/UI/Meta";
+import Title from "@/components/UI/Title";
 import { useAction } from "@/hooks/useAction";
 import { NextPageAuth } from "@/providers/authProvider/auth-page.types"
 import { StatisticsService } from "@/services/statistics.service";
@@ -34,9 +35,8 @@ const TopProducts: NextPageAuth = () => {
     return (
         <Meta title="Top products">
             <Layout>
-                <div className="flex flex-col items-center justify-between">
-                    <h1 className="text-3xl font-bold">Top products</h1>
-                    <div className="flex w-full justify-around mt-6">
+                    <Title className="font-bold">Top Products</Title>
+                    <div className="flex flex-col w-full gap-5 mt-6">
                         {(leaders && leaders.length > 0) ? (leaders?.map(leader => (
                             <Link 
                                 href={`/product/${leader.product.slug}`}
@@ -49,7 +49,7 @@ const TopProducts: NextPageAuth = () => {
                                     alt={leader.product.name}
                                     width={80}
                                     height={80}
-                                    className="w-30 h-30 object-cover rounded-2xl"
+                                    className="w-[80px] h-[80px] object-contain rounded-2xl"
                                 />
                                 <h3 className="text-xl font-bold">{leader.product.name}</h3>
                                 <p className="text-lg">{priceConverter(leader.product.price)}</p>
@@ -60,7 +60,6 @@ const TopProducts: NextPageAuth = () => {
                             )
                         }
                     </div>
-                </div>
             </Layout>
         </Meta>
     )

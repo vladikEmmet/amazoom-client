@@ -34,25 +34,6 @@ const SortMenu: FC<SortMenuProps> = ({sortType, setSortType}) => {
             filterOption={createFilter(filterConfig)}
             className="bg-white z-5"
         />
-        {/* <select 
-            className="appearance-none py-1 px-2 bg-white border-gray"
-            value={sortType}
-            onChange={(e) => setSortType(e.target.value as any)}
-        >
-            {
-                (Object.keys(ProductSort) as Array<keyof typeof ProductSort>)
-                    .map(key => {
-                        return (
-                            <option 
-                                key={key}
-                                value={ProductSort[key]}
-                            >
-                                {ProductSort[key]}
-                            </option>
-                        )
-                    })
-            }
-        </select> */}
     </div>
   )
 }

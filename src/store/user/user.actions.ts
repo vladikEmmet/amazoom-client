@@ -2,13 +2,13 @@ import { errorCatch } from "@/api/helper";
 import { AuthService } from "@/services/auth.service";
 import { StorageService } from "@/services/storage.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IAuthResponse, IEmailPassword } from "./user.interface";
+import { IAuthResponse, IEmailPassword, IUserRegister } from "./user.interface";
 
-export const register = createAsyncThunk<IAuthResponse, IEmailPassword>(
+export const register = createAsyncThunk<IAuthResponse, IUserRegister>(
     "auth/register",
     async (data, thunkAPI) => {
         try {
-            const response = await AuthService.main("register", data);
+            const response = await AuthService.main<IUserRegister>("register", data);
             return response;
         } catch(err) {
             return thunkAPI.rejectWithValue(errorCatch(err));
@@ -20,7 +20,7 @@ export const login = createAsyncThunk<IAuthResponse, IEmailPassword>(
     "auth/login",
     async(data, thunkAPI) => {
         try {
-            const response = await AuthService.main("login", data);
+            const response = await AuthService.main<IEmailPassword>("login", data);
             return response;
         } catch(err) {
             return thunkAPI.rejectWithValue(errorCatch(err));

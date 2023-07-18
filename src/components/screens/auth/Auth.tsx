@@ -1,110 +1,87 @@
 import { useAction } from "@/hooks/useAction";
 import { useAuth } from "@/hooks/useAuth";
-import { useAuthRedirect } from "@/hooks/useAuthRedirect";
-import { IEmailPassword } from "@/store/user/user.interface";
+import { IEmailPassword, IUserRegister } from "@/store/user/user.interface";
 import { validEmail } from "@/utils/validEmail";
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../UI/Button/Button";
 import Input from "../../UI/Input/Input";
 import Loader from "../../UI/Loader";
-import Meta from "../../UI/Meta";
-import Title from "../../UI/Title";
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { errorCatch } from "@/api/helper";
 import { useAppDispatchUnwrap } from '@/hooks/useAppDispatchUnwrap';
 import { login, register } from "@/store/user/user.actions";
+import Modal from "@/components/UI/Modal/Modal";
+import Logo from "@/components/UI/Logo";
+import Title from "@/components/UI/Title";
+import { AuthProps, AuthTypes, PasswordTypes } from "./Auth.interface";
+import RegistrationForm from "./RegistrationForm";
+import ResetPassword from "./ResetPassword";
+import LoginForm from "./LoginForm";
 
-enum PasswordTypes {
-    PASSWORD = "PASSWORD",
-    TEXT = "TEXT",
-}
-
-const Auth: FC = () => {
-    useAuthRedirect();
+const Auth: FC<AuthProps> = ({onClose}) => {
     const {isLoading} = useAuth();
-    const [type, setType] = useState<"login" | "register">("login");
-    const {register: formReg, handleSubmit, formState: {errors}, reset} = useForm<IEmailPassword>({
-        mode: "onChange"
-    });
+    const [type, setType] = useState<AuthTypes>(AuthTypes.LOGIN);
     const [error, setError] = useState("");
-    const [passwordType, setPasswordType] = useState<PasswordTypes>(PasswordTypes.PASSWORD);
     const {setMessage} = useAction();
     const dispatch = useAppDispatchUnwrap();
 
-    const onSubmit:SubmitHandler<IEmailPassword> = async(data) => {
+    const onSubmit:SubmitHandler<IEmailPassword | IUserRegister> = async(data) => {
         try {
-            let action;
             if (type === "login") {
-                dispatch(login(data)).catch((err: any) => setError(err));
+                dispatch(login(data as IEmailPassword)).catch((err: any) => setError(err));
             } else {
-                dispatch(register(data)).catch((err: any) => setError(err));
+                dispatch(register(data as IUserRegister)).catch((err: any) => setError(err));
             }
-            reset();
         } catch(err) {
-            console.log(err);
-            
             setMessage(errorCatch(err));
         }
     }
+
+    const onGoBack = () => setType(AuthTypes.LOGIN);
+
+    if(isLoading) return (
+        <Modal onClose={onClose}>
+            <Loader bg="transparent"/>
+        </Modal>
+    )
     
     return (
-        <Meta title="Authorization">
-            <section className="flex h-screen">
-                <form onSubmit={handleSubmit(onSubmit)} className="rounded-lg bg-white shadow-sm p-7 m-auto">
-                    <Title className="capitalize text-center mb-4">{type === "login" ? "Log in" : "Registration"}</Title>
+        <Modal 
+            onClose={onClose}
+            className="w-2/3"
+        >
+            <Logo className="mb-5"/>
 
-                    {isLoading && <Loader />}
-                    
-                    <Input {...formReg("email", {
-                            required: "Email is required",
-                            pattern: {
-                                value: validEmail,
-                                message: "Invalid email",
-                            }
-                        })}
-                        placeholder="Email"
-                        error={errors.email?.message}
-                    />
+            {type === AuthTypes.RESET_PASSWORD ? (
+                <ResetPassword onGoBack={onGoBack}/>
+            ) : (
 
-                    <Input {...formReg("password", {
-                            required: "Password is required",
-                            minLength: {
-                                value: 6,
-                                message: "Password must be at least 6 characters",
-                            }
-                        })}
-                        type={passwordType}
-                        placeholder="Password"
-                        error={errors.password?.message}
-                        Icon={passwordType === PasswordTypes.PASSWORD ? AiFillEye : AiFillEyeInvisible}
-                        onIconClick={
-                            () => setPasswordType(passwordType === PasswordTypes.PASSWORD ? 
-                                PasswordTypes.TEXT : PasswordTypes.PASSWORD)
-                        }
-                    />
-
-                    {error.length > 0 && 
-                        <p className="text-warning mb-3">{error}</p>
-                    }
-
-                    <div className="flex justify-around items-center">
-                        <Button variant="dark">
-                            Submit
-                        </Button>
-
-                        <button 
-                            onClick={() => setType(type === "register" ? "login" : "register")}
-                            className="inline-block opacity-50 mt-1"
-                            type="button"
-                        >
-                            {type === "register" ? "Login" : "Sign up"}
-                        </button>
+                <div className="w-full flex justify-between">
+                    <div className="w-3/5">
+                        <Title className="text-center mb-2">{type === AuthTypes.LOGIN ? "Sign in" : "Create account"}</Title>
+                        {type === AuthTypes.LOGIN ? <LoginForm onSubmit={onSubmit} error={error}/> : <RegistrationForm  onSubmit={onSubmit} error={error}/>}
                     </div>
-                </form>
-            </section>
+                    <div className="w-2/5 text-center text-sm flex flex-col justify-around items-center">
+                        <p>
+                            Find everything you love at Amazoom
+                            The world's largest onle merietalace 
+                        </p>
+                        <div className="w-full">
+                            <p>{type === AuthTypes.LOGIN ? "New in Amazoom?" : "Already have an account?"}</p>
+                            <Button
+                                variant="dark"
+                                onClick={() => setType(type === AuthTypes.LOGIN ? AuthTypes.REGISTER : AuthTypes.LOGIN)}
+                                className="mt-4 text-base"
+                            >
+                                {type === AuthTypes.REGISTER ? "Sign In" : "Create your account here"}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
             
-        </Meta>
+        </Modal>
     )
 }
 
