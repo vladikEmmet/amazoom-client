@@ -1,20 +1,17 @@
 import { useAction } from "@/hooks/useAction";
 import { useAuth } from "@/hooks/useAuth";
 import { IEmailPassword, IUserRegister } from "@/store/user/user.interface";
-import { validEmail } from "@/utils/validEmail";
 import { FC, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import Button from "../../UI/Button/Button";
-import Input from "../../UI/Input/Input";
 import Loader from "../../UI/Loader";
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { errorCatch } from "@/api/helper";
 import { useAppDispatchUnwrap } from '@/hooks/useAppDispatchUnwrap';
 import { login, register } from "@/store/user/user.actions";
 import Modal from "@/components/UI/Modal/Modal";
 import Logo from "@/components/UI/Logo";
 import Title from "@/components/UI/Title";
-import { AuthProps, AuthTypes, PasswordTypes } from "./Auth.interface";
+import { AuthProps, AuthTypes } from "./Auth.interface";
 import RegistrationForm from "./RegistrationForm";
 import ResetPassword from "./ResetPassword";
 import LoginForm from "./LoginForm";
@@ -64,8 +61,8 @@ const Auth: FC<AuthProps> = ({onClose}) => {
                     </div>
                     <div className="w-2/5 text-center text-sm flex flex-col justify-around items-center">
                         <p>
-                            Find everything you love at Amazoom
-                            The world's largest onle merietalace 
+                            {`Find everything you love at Amazoom
+                            The world's largest onle merietalace `}
                         </p>
                         <div className="w-full">
                             <p>{type === AuthTypes.LOGIN ? "New in Amazoom?" : "Already have an account?"}</p>
